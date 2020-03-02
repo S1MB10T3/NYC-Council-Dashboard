@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import './App.css';
 import Login from './Login';
 import Dashboard from './Dashboard';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import NotFound from './NotFound';
+import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import * as actions from './actions';
+
 
 class App extends Component {
 
@@ -13,12 +15,35 @@ class App extends Component {
   }
 
   render() {
+    const ProtectedRoute = ({component: Component, ...rest}) => {
+      return (
+        <Route
+          {...rest}
+          render={props => {
+            if (actions.IsAuthenticated()) {
+              return <Component {...props} />;
+            } else {
+              return <Redirect to={
+                {
+                  pathname: "/login",
+                  state: {
+                    from: props.location
+                  }
+                }
+              } />
+            }
+          }
+        } />
+      );
+    };
+
     return (
       <BrowserRouter>
         <div className="App">
           <Switch>
-            <Route path="/" exact component={Dashboard} />
+            <ProtectedRoute path="/" exact component={Dashboard} />
             <Route path="/login" component={Login} />
+            <Route path="*" component={NotFound} />
           </Switch>
         </div>
       </BrowserRouter>

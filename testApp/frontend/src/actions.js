@@ -27,8 +27,18 @@ export const authFailed = (error) => {
    }
 }
 
+export const IsAuthenticated = () => {
+  const token = localStorage.getItem('token');
+  console.log(token);
+  if (token !== null){
+    return true;
+  }
+  return false;
+
+}
+
 export const logout = () => {
-  localStorage.removeItem('user');
+  localStorage.removeItem('token');
   localStorage.removeItem('expirationDate');
   return {
     type: AUTH_LOGOUT
@@ -39,7 +49,7 @@ export const logout = () => {
 export const authTimeout = (expirationTime) => {
   return dispatch => {
     setTimeout(() => {
-      dispatch(logout());
+      // dispatch(logout());
     }, expirationTime * 1000)
   }
 }
@@ -69,11 +79,11 @@ export const login = (username, password) => {
 export const authCheckState = () => {
   return dispatch => {
     const token = localStorage.getItem('token');
-    if (token === undefined) {
+    if (!IsAuthenticated()) {
       dispatch(logout());
     } else {
       const expirationDate = new Date(localStorage.getItem('expirationDate'));
-      if ( expirationDate <= new Date()){
+      if ( expirationDate < new Date()){
         dispatch(logout());
       } else {
         dispatch(authSuccess(token))
