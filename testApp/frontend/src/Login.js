@@ -4,7 +4,7 @@ import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Spin, Alert } from 'antd';
 import * as actions from './actions'
-
+import 'antd/dist/antd.css';
 
 class Login extends Component {
 
