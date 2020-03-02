@@ -5,6 +5,8 @@ from .views import ComplaintViewSet, OpenCasesViewSet, ClosedCasesViewSet, TopCo
 """
 Fix:
     Fixed url issue where endpoints returned just a "detial: none" as a result
+
+    - Rokney
 """
 router = routers.SimpleRouter()
 router.register(r'^', ComplaintViewSet, base_name='complaint')

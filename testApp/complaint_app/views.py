@@ -75,6 +75,12 @@ class TopComplaintTypeViewSet(viewsets.ModelViewSet):
   http_method_names = ['get']
   permission_classes = [IsAuthenticated]
 
-  def list(self, request):
-    # Get the top 3 complaint types from the user's district
-    return Response()
+  def get_queryset(self):
+    # Get all complaints from the user's district
+    user = UserProfile.objects.get(user = self.request.user)
+    usersDistrict = user.district
+    if len(usersDistrict) == 1:
+     district = "NYCC0" + usersDistrict
+    else:
+     district = "NYCC" + usersDistrict
+    return Complaint.objects.get().filter(account=district)
