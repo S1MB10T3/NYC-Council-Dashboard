@@ -92,4 +92,69 @@ export const authCheckState = () => {
     }
   }
 }
+
 // Complaints/Dashboard Actions
+export const getComplaints = () => {
+  return dispatch => {
+    //dispatch fetch
+    axios.get('http://127.0.0.1/api/complaints/')
+    .then(res => {
+      //dispatch results
+    })
+    .catch(err =>{
+      //dispatch err
+    })
+  }
+}
+
+export const getOpenComplaints = () => {
+  return dispatch => {
+    //dispatch fetch
+    axios.get('http://127.0.0.1/api/complaints/openCases/')
+    .then(res => {
+      //dispatch results
+    })
+    .catch(err =>{
+      //dispatch err
+    })
+  }
+}
+
+export const getCloseComplaints = () => {
+  return dispatch => {
+    //dispatch fetch
+    axios.get('http://127.0.0.1/api/complaints/closedCases/')
+    .then(res => {
+      //dispatch results
+    })
+    .catch(err =>{
+      //dispatch err
+    })
+  }
+}
+
+export const getTopComplaints = () => {
+  return dispatch => {
+    //dispatch fetch
+    axios.get('http://127.0.0.1/api/complaints/topComplaints')
+    .then(res => {
+      //dispatch results
+    })
+    .catch(err =>{
+      //dispatch err
+    })
+  }
+}
+
+export const getConstituentsComplaints = () => {
+  return dispatch => {
+    //dispatch fetch
+    axios.get('http://127.0.0.1/api/complaints/constituents/')
+    .then(res => {
+      //dispatch results
+    })
+    .catch(err =>{
+      //dispatch err
+    })
+  }
+}

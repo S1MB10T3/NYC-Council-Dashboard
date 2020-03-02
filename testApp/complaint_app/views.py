@@ -84,3 +84,22 @@ class TopComplaintTypeViewSet(viewsets.ModelViewSet):
     else:
      district = "NYCC" + usersDistrict
     return Complaint.objects.get().filter(account=district)
+
+class ConstituentsCasesViewSet(viewsets.ModelViewSet):
+  """
+    This view is for a API get request that creates a list of all Constituents complaints
+    from the current user's district
+  """
+
+  http_method_names = ['get']
+  permission_classes = [IsAuthenticated]
+  serializer_class = ComplaintSerializer
+
+  def get_queryset(self):
+    user = UserProfile.objects.get(user = self.request.user)
+    usersDistrict = user.district
+    if len(usersDistrict) == 1:
+        district = "NYCC0" + usersDistrict
+    else:
+        district = "NYCC" + usersDistrict
+    return Complaint.objects.filter(account=district)
