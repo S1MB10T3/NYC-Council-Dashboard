@@ -58,12 +58,39 @@ const authLogout = (state, action) => {
   });
 }
 
+const conplaintsFetching = (state, action) => {
+  return updateObject(state, {
+    fetching: true,
+    fetched: false,
+    error: null
+  });
+}
+
+const conplaintsFetched = (state, action) => {
+  return updateObject(state, {
+    fetching: false,
+    fetched: true,
+    error: null
+  });
+}
+
+const conplaintsFailed = (state, action) => {
+  return updateObject(state, {
+    fetching: false,
+    fetched: false,
+    error: true
+  });
+}
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_INIT: return authInit(state, action);
     case actionTypes.AUTH_SUCCESS: return authSuccess(state, action);
     case actionTypes.AUTH_FAILED: return authFailed(state, action);
     case actionTypes.AUTH_LOGOUT: return authLogout(state, action);
+    case actionTypes.FETCHING_COMPLAINTS: return conplaintsFetching(state, action);
+    case actionTypes.FETCHED_COMPLAINTS: return conplaintsFetched(state, action);
+    case actionTypes.FETCHED_COMPLAINTS_FAILED: return conplaintsFailed(state, action);
     default:
       return state;
   }
