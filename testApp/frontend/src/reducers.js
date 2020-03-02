@@ -13,9 +13,9 @@ const updateObject = (oldObject, updatedProps) => {
 const initialState = {
   token: null,
   complaints: [],
-  topComplaint: [],
-  closeComplaints: '',
-  openComplaints: '',
+  topComplaint: '',
+  closedCases: '',
+  openCases: '',
   fetching: false,
   fetched: false,
   error: null,
@@ -77,6 +77,33 @@ const conplaintsFailed = (state, action) => {
   });
 }
 
+const topConplaintFetched = (state, action) => {
+  return updateObject(state, {
+    topComplaint: action.topComplaint,
+    fetching: false,
+    fetched: true,
+    error: null
+  });
+}
+
+const openConplaintsFetched = (state, action) => {
+  return updateObject(state, {
+    openCases: action.openCases,
+    fetching: false,
+    fetched: true,
+    error: null
+  });
+}
+
+const closedConplaintsFetched = (state, action) => {
+  return updateObject(state, {
+    closedCases: action.closedCases,
+    fetching: false,
+    fetched: true,
+    error: null
+  });
+}
+
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_INIT: return authInit(state, action);
@@ -86,6 +113,9 @@ export const reducer = (state = initialState, action) => {
     case actionTypes.FETCHING_COMPLAINTS: return conplaintsFetching(state, action);
     case actionTypes.FETCHED_COMPLAINTS: return conplaintsFetched(state, action);
     case actionTypes.FETCHED_COMPLAINTS_FAILED: return conplaintsFailed(state, action);
+    case actionTypes.FETCHED_TOP_COMPLAINTS: return topConplaintFetched(state, action);
+    case actionTypes.FETCHED_CLOSE_COMPLAINTS: return closedConplaintsFetched(state, action);
+    case actionTypes.FETCHED_OPEN_COMPLAINTS: return openConplaintsFetched(state, action);
     default:
       return state;
   }

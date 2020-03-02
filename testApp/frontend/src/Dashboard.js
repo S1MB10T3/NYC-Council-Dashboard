@@ -8,6 +8,9 @@ class Dashboard extends Component {
 
   componentDidMount() {
     this.props.getComplaints();
+    this.props.getOpenComplaints();
+    this.props.getCloseComplaints();
+    this.props.getTopComplaint();
   }
 
   render() {
@@ -18,7 +21,6 @@ class Dashboard extends Component {
         width: 100,
         dataIndex: 'account',
         key: 'account',
-        fixed: 'left',
       },
       {
         title: 'Council District',
@@ -75,7 +77,12 @@ class Dashboard extends Component {
     return (
       <div className="Dashboard">
         <h1>Dashboard</h1>
-        <Table tableLayout="auto" columns={columns} dataSource={this.props.complaints} rowKey="unique_key"  />
+        <h2>Open Cases: {this.props.openCases} </h2>
+        <h2>Closed Cases: {this.props.closedCases} </h2>
+        <h2>Top Complaint Type: {this.props.topComplaint} </h2>
+        <div className="Content">
+          <Table tableLayout="auto" columns={columns} dataSource={this.props.complaints} rowKey="unique_key"  />
+        </div>
       </div>
     )
   }
@@ -85,8 +92,8 @@ const mapStateToProps = (state) => {
   return {
     complaints: state.complaints,
     topComplaint: state.topComplaint,
-    closeComplaints: state.closeComplaints,
-    openComplaints: state.openComplaints,
+    closedCases: state.closedCases,
+    openCases: state.openCases,
     fetching: state.fetching,
     fetched: state.fetched,
   }
@@ -94,7 +101,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getComplaints: () => dispatch(actions.getComplaints())
+    getComplaints: () => dispatch(actions.getComplaints()),
+    getOpenComplaints: () => dispatch(actions.getOpenComplaints()),
+    getCloseComplaints: () => dispatch(actions.getCloseComplaints()),
+    getConstituentsComplaints: () => dispatch(actions.getConstituentsComplaints()),
+    getTopComplaint: () => dispatch(actions.getTopComplaint())
   }
 }
 

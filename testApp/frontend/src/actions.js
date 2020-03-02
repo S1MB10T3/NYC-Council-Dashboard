@@ -105,11 +105,33 @@ export const authCheckState = () => {
 export const FETCHING_COMPLAINTS = 'FETCHING_COMPLAINTS';
 export const FETCHED_COMPLAINTS = 'FETCHED_COMPLAINTS';
 export const FETCHED_COMPLAINTS_FAILED = 'FETCHED_COMPLAINTS_FAILED';
+export const FETCHED_TOP_COMPLAINTS = 'FETCHED_TOP_COMPLAINTS';
+export const FETCHED_OPEN_COMPLAINTS = 'FETCHED_OPEN_COMPLAINTS';
+export const FETCHED_CLOSE_COMPLAINTS = 'FETCHED_CLOSE_COMPLAINTS';
 
 export const gotComplaints = (data) => {
   return {
     type: FETCHED_COMPLAINTS,
     complaints: data
+  }
+}
+
+export const gotOpenComplaints = (data) => {
+  return {
+    type: FETCHED_OPEN_COMPLAINTS,
+    openCases: data
+  }
+}
+export const gotCloseComplaints = (data) => {
+  return {
+    type: FETCHED_CLOSE_COMPLAINTS,
+    closedCases: data
+  }
+}
+export const gotTopComplaints = (string) => {
+  return {
+    type: FETCHED_TOP_COMPLAINTS,
+    topComplaint: string
   }
 }
 
@@ -131,8 +153,7 @@ export const getOpenComplaints = () => {
     //dispatch fetch
     axios.get('http://127.0.0.1:8000/api/complaints/openCases/', config)
       .then(res => {
-        const count = Object.keys(res).length;
-        return count;
+        dispatch(gotOpenComplaints(Object.keys(res.data).length.toString()))
       })
       .catch(err => {
         return err;
@@ -145,8 +166,7 @@ export const getCloseComplaints = () => {
     //dispatch fetch
     axios.get('http://127.0.0.1:8000/api/complaints/closedCases/', config)
       .then(res => {
-        const count = Object.keys(res).length;
-        return count;
+        dispatch(gotCloseComplaints(Object.keys(res.data).length.toString()))
       })
       .catch(err => {
         return err;
@@ -159,8 +179,8 @@ export const getTopComplaint = () => {
     //dispatch fetch
     axios.get('http://127.0.0.1:8000/api/complaints/topComplaints', config)
       .then(res => {
-        // Only storing the top #1 complaint
-        return res[0];
+        const type = res.data[0][0];
+        dispatch(gotTopComplaints(type))
       })
       .catch(err => {
         return err;
