@@ -5,6 +5,9 @@ import * as actions from './actions'
 import 'antd/dist/antd.css';
 
 class Dashboard extends Component {
+  state = {
+      switchedData: false,
+  }
 
   componentDidMount() {
     this.props.getComplaints();
@@ -12,6 +15,22 @@ class Dashboard extends Component {
     this.props.getCloseComplaints();
     this.props.getTopComplaint();
   }
+
+  switchComplaintData = () => {
+    /*
+      Function switches between the standard data set of complaints to
+      constituents complaints.
+    */
+    if (this.state.switchedData) {
+      this.props.getComplaints();
+
+    } else {
+      this.props.getConstituentsComplaints()
+    }
+    this.setState(prevState => ({
+      switchedData: !prevState.switchedData
+    }));
+  };
 
   render() {
 
@@ -35,7 +54,12 @@ class Dashboard extends Component {
         key: 'complaint_type',
         width: 150,
       },
-      { title: 'Description', dataIndex: 'descriptor', key: 'descriptor', width: 200, },
+      {
+        title: 'Description',
+        dataIndex: 'descriptor',
+        key: 'descriptor',
+        width: 200,
+      },
       {
         title: 'City',
         width: 100,
@@ -76,12 +100,25 @@ class Dashboard extends Component {
 
     return (
       <div className="Dashboard">
+        <nav> <button onClick={this.props.logout}>Log Out</button> </nav>
+
         <h1>Dashboard</h1>
         <h2>Open Cases: {this.props.openCases} </h2>
         <h2>Closed Cases: {this.props.closedCases} </h2>
         <h2>Top Complaint Type: {this.props.topComplaint} </h2>
         <div className="Content">
-          <Table tableLayout="auto" columns={columns} dataSource={this.props.complaints} rowKey="unique_key"  />
+          <Table tableLayout="auto"
+            columns={columns}
+            dataSource={this.props.complaints}
+            rowKey="unique_key"
+            size="small"
+             />
+           <button onClick={this.switchComplaintData}>{
+               this.state.switchedData ?
+               'All Complaints in District'
+               :
+               'Complaints by My Constituents'
+            }</button>
         </div>
       </div>
     )
@@ -105,7 +142,8 @@ const mapDispatchToProps = dispatch => {
     getOpenComplaints: () => dispatch(actions.getOpenComplaints()),
     getCloseComplaints: () => dispatch(actions.getCloseComplaints()),
     getConstituentsComplaints: () => dispatch(actions.getConstituentsComplaints()),
-    getTopComplaint: () => dispatch(actions.getTopComplaint())
+    getTopComplaint: () => dispatch(actions.getTopComplaint()),
+    logout: () => dispatch(actions.logout())
   }
 }
 

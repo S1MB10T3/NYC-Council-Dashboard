@@ -25,4 +25,22 @@
   width: 80%;
   max-width: 1000px;
   margin: 0 auto;
+  padding: 20px;
+}
+
+.Login {
+  padding-top: 100px;
+  width: 40%;
+}
+
+.Redirect button {
+  display: inline-block;
+  margin: 20px;
+}
+
+nav {
+  margin: 10px;
+  position: absolute;
+  right: 0;
+  z-index: 100;
 }

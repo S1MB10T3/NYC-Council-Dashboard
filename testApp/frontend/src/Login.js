@@ -3,10 +3,12 @@ import { connect } from 'react-redux'
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Spin, Alert } from 'antd';
+import { Link } from 'react-router-dom';
 import * as actions from './actions'
 import 'antd/dist/antd.css';
 
 class Login extends Component {
+
 
   render() {
 
@@ -21,20 +23,18 @@ class Login extends Component {
       this.props.onAuth(values.username, values.password)
     };
 
+
+
     return (
-      <div>
+      <div className="Login Content">
         {errorMessage}
         {
-          this.props.loading ?
-
-          <Spin tip="Loading...">
-            <Alert
-              message="Alert message title"
-              description="Further details about the context of this alert."
-              type="info"
-            />
-          </Spin>
-
+          this.props.token ?
+          <div className="Redirect">
+            <button><Link to="/">Dashboard</Link></button>
+            <br />
+            <button onClick={this.props.logout}>Log Out</button>
+          </div>
           :
 
           <Form
@@ -88,13 +88,15 @@ class Login extends Component {
 const mapStateToProps = (state) => {
   return {
     loading: state.loading,
-    error: state.error
+    error: state.error,
+    token: state.token
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (username, password) => dispatch(actions.login(username, password))
+    onAuth: (username, password) => dispatch(actions.login(username, password)),
+    logout: () => dispatch(actions.logout())
   }
 }
 

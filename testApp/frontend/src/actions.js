@@ -191,9 +191,9 @@ export const getTopComplaint = () => {
 export const getConstituentsComplaints = () => {
   return dispatch => {
     //dispatch fetch
-    axios.get('http://127.0.0.1:8000/api/complaints/constituents/', config)
+    axios.get('http://127.0.0.1:8000/api/complaints/constituentsComplaints/', config)
       .then(res => {
-        return res;
+        dispatch(gotComplaints(res.data))
       })
       .catch(err => {
         return err;

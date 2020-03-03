@@ -42,7 +42,7 @@ class App extends Component {
         <div className="App">
           <Switch>
             <ProtectedRoute path="/" exact component={Dashboard} />
-            <Route path="/login" component={Login} />
+            <Route path="/login" exact component={Login} />
             <Route path="*" component={NotFound} />
           </Switch>
         </div>
